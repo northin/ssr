@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="margin:0 100px;">
+        <h1>ssr</h1>
+
+        <pre><code>ssr是服务端渲染。即在node后台将组件渲染成HTML，发送给浏览器。</code></pre>
+        
+        <h2>优点：</h2>
+        
+        <pre><code>1.更好的SEO，搜索引擎可以直接查看渲染好的页面
+        
+        2.更加快的内容到达时间，后台渲染好了，浏览器收的快</code></pre>
+        
+        <h2>缺点：</h2>
+        
+        <pre><code>1.后台的必须有node的服务
+        
+        2.服务器压力大</code></pre>
+        
+        <h3>过程</h3>
+        
+        <pre><code>1.试一下</code></pre>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\1.png"/></p>
+        
+        <pre><code>结果</code></pre>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\2.png"/></p>
+        
+        <pre><code>2.开始服务端渲染
+        
+        项目结构</code></pre>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\mulu.png"/></p>
+        
+        <pre><code>说明：</code></pre>
+        
+        <ul><li>app的是vue项目<ul><li>client_entry.js是客户端入口</li><li>server_entry.js是服务端入口</li><li>app.js是生成vue对象的工厂函数</li></ul></li><li>index.js的node后台服务启动</li><li>index.template.html是后台用到的模板</li><li>webpack.config.js是生成生成客户端构建清单(client build manifest) 的配置</li><li>webpack.server.config.js是生成server bundle 的配置</li><li><p>.babelrc是babel的配置</p><p>3.步骤</p></li></ul>
+        
+        <p><img alt="" width=800px src="D:\web\vue\ssr\img\guocheng.png"/></p>
+        
+        <ul><li><p>App.vue</p><p>包含一个id为app的div（用来挂载在vNode）</p></li><li>app.js </li></ul>
+        
+        <pre><code>
+        export default function createApp(){
+            return new Vue({
+                store,
+                router,
+                //js渲染模板 h是createElement函数
+                render:h =&gt; h(App)
+            })		
+        }
+        </code></pre>
+        
+        <ul><li>store.js是vuex的store初始化，就一个test方法</li><li>api.js是axios的接口api的</li><li>router.js是路由说明的</li><li>componment是组件   </li><li>client_entry.js</li></ul>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\client1.png"/></p>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\client2.png"/></p>
+        
+        <ul><li>server_entry.js</li></ul>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\server.png"/></p>
+        
+        <pre><code>组件内调用：</code></pre>
+        
+        <pre><code>
+        asyncData ({ store, route }){ //触发函数
+            return store.dispatch(&quot;test&quot;,1)
+        },
+        </code></pre>
+        
+        <pre><code>css管理：
+        在webpack的配置中vue-loader加</code></pre>
+        
+        <pre><code>
+        options: {
+            // enable CSS extraction
+            extractCSS: true
+        }
+        </code></pre>
+        
+        <pre><code>添加css-loader</code></pre>
+        
+        <pre><code>
+        { 
+            test: /\.css$/, 
+            use: [&#39;vue-style-loader&#39;, &#39;css-loader&#39;]
+        }
+        </code></pre>
+        
+        <pre><code>后台服务：
+            index.js</code></pre>
+        
+        <p><img alt="" src="D:\web\vue\ssr\img\node.png"/></p>
+        
+        <p>后记：</p>
+        
+        <pre><code>只是简单入门项目，运用起来应该还有很多地方有坑。只是根据官网https://ssr.vuejs.org/zh/实现了基本Dom，路由，异步数据加载（基于axios，vuex）这	些功能。</code></pre>
+        
+        <p>参考：</p>
+        
+        <p>vuessr官网：<a href="https://ssr.vuejs.org/zh/" title="https://ssr.vuejs.org/zh/">https://ssr.vuejs.org/zh/</a>  <br/>vuessr官网实例：<a href="https://github.com/vuejs/vue-hackernews-2.0/" title="https://github.com/vuejs/vue-hackernews-2.0/">https://github.com/vuejs/vue-hackernews-2.0/</a>   <br/>链接：</p>
+        
+        <p>nuxt官网：<a href="https://zh.nuxtjs.org/" title="https://zh.nuxtjs.org/">https://zh.nuxtjs.org/</a>  <br/>next官网：<a href="https://nextjs.org/" title="https://nextjs.org/">https://nextjs.org/   </a><br/>         </p>
+  </body>
+</html>
